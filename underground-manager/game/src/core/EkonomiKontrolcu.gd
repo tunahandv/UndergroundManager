@@ -56,3 +56,22 @@ func mekan_isgal_et_merkezi(mekan: Mekan) -> bool:
 		print("💥 MOTOR BAŞARILI: ", mekan.isim, " İŞGAL EDİLDİ! | Kalan Para: ", oyuncu_parasi)
 		return true
 	return false
+	
+	# EkonomiKontrolcu.gd dosyasının en altına ekle:
+
+# Elimizdeki tüm malları tek tıkla kara borsada satma fonksiyonu
+func mallari_nakde_cevir() -> float:
+	if oyuncu_mallari <= 0:
+		print("❌ Depoda satılacak mal yok!")
+		return 0.0
+		
+	var mal_basi_fiyat: float = 15.0 # 1 adet mal = 15$
+	var kazanilan_toplam_para = oyuncu_mallari * mal_basi_fiyat
+	
+	# Stokları boşalt, parayı kasaya ekle
+	oyuncu_parasi += kazanilan_toplam_para
+	var satilan_miktar = oyuncu_mallari
+	oyuncu_mallari = 0
+	
+	print("💰 TİCARET BAŞARILI: ", satilan_miktar, " adet mal satıldı! Kazanç: +", kazanilan_toplam_para, "$")
+	return kazanilan_toplam_para
