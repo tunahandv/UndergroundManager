@@ -4,19 +4,17 @@ var ekonomi: EkonomiKontrolcu
 var zamanlayici: float = 0.0
 
 # Düğümü yakalıyoruz
-@onready var ana_arayuz = $AnaArayuz
+@onready var ana_arayuz = $CanvasLayer/AnaArayuz
 
 func _ready() -> void:
-	# Önce ekonomi motorunu hafızada canlandırıyoruz
 	ekonomi = EkonomiKontrolcu.new()
 	
-	# EN GÜVENLİ YOL: Arayüzün yüklenmesi için 1 karecik bekletiyoruz
 	await get_tree().process_frame
 	
-	# Şimdi bağlantıyı kuruyoruz
 	if ana_arayuz:
 		ana_arayuz.ekonomi = ekonomi
-		ana_arayuz.arayuzu_guncelle()
+		# İŞTE BURASI DEĞİŞTİ: Artık direkt ilk kurulum fonksiyonunu çağırıyoruz
+		ana_arayuz.ilk_kurulumu_yap()
 	
 	print("=== YERALTI İMPARATORLUĞU BAŞLADI ===")
 	print("Başlangıç Parası: ", ekonomi.oyuncu_parasi, "$")

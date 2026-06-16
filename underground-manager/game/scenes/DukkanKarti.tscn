@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://cptr1pxua3nbc"]
+
+[ext_resource type="Script" uid="uid://1wn350sfxtux" path="res://game/scenes/DukkanKarti.gd" id="1_ag3y2"]
+
+[node name="DukkanKarti" type="PanelContainer" unique_id=1834004138]
+offset_right = 680.0
+offset_bottom = 140.0
+script = ExtResource("1_ag3y2")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=971481320]
+layout_mode = 2
+
+[node name="BilgiYazisi" type="Label" parent="HBoxContainer" unique_id=1969650275]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="GelistirButonu" type="Button" parent="HBoxContainer" unique_id=1235474371]
+layout_mode = 2
+text = "Geliştir"
+
+[connection signal="pressed" from="HBoxContainer/GelistirButonu" to="." method="_on_gelistir_butonu_pressed"]

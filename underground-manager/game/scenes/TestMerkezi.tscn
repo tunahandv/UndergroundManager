@@ -6,7 +6,9 @@
 [node name="TestMerkezi" type="Node2D" unique_id=576771832]
 script = ExtResource("1_u70cd")
 
-[node name="AnaArayuz" type="Control" parent="." unique_id=1043021569]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=2110376834]
+
+[node name="AnaArayuz" type="Control" parent="CanvasLayer" unique_id=1043021569]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,16 +17,15 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("2_iwfgr")
 
-[node name="UstBar" type="ColorRect" parent="AnaArayuz" unique_id=702387388]
+[node name="UstBar" type="ColorRect" parent="CanvasLayer/AnaArayuz" unique_id=702387388]
 layout_mode = 1
 anchors_preset = 10
 anchor_right = 1.0
-offset_right = 720.0
 offset_bottom = 80.0
 grow_horizontal = 2
 color = Color(0.0010853444, 0.0010853446, 0.0010853445, 1)
 
-[node name="ParaYazisi" type="Label" parent="AnaArayuz/UstBar" unique_id=1385848]
+[node name="ParaYazisi" type="Label" parent="CanvasLayer/AnaArayuz/UstBar" unique_id=1385848]
 layout_mode = 1
 anchors_preset = 4
 anchor_top = 0.5
@@ -35,7 +36,7 @@ offset_bottom = 11.5
 grow_vertical = 2
 text = "500$"
 
-[node name="MalYazisi" type="Label" parent="AnaArayuz/UstBar" unique_id=315451608]
+[node name="MalYazisi" type="Label" parent="CanvasLayer/AnaArayuz/UstBar" unique_id=315451608]
 layout_mode = 1
 anchors_preset = 6
 anchor_left = 1.0
@@ -48,3 +49,17 @@ offset_bottom = 11.5
 grow_horizontal = 0
 grow_vertical = 2
 text = "Stok : 0"
+
+[node name="DukkanKaydirici" type="ScrollContainer" parent="CanvasLayer/AnaArayuz" unique_id=1931968081]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 100.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="DukkanListesi" type="VBoxContainer" parent="CanvasLayer/AnaArayuz/DukkanKaydirici" unique_id=857916486]
+unique_name_in_owner = true
+layout_mode = 2
