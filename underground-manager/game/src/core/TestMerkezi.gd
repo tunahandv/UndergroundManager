@@ -13,7 +13,7 @@ func _ready() -> void:
 	
 	if ana_arayuz:
 		ana_arayuz.ekonomi = ekonomi
-		# İŞTE BURASI DEĞİŞTİ: Artık direkt ilk kurulum fonksiyonunu çağırıyoruz
+		# İlk kurulum fonksiyonunu çağırıyoruz
 		ana_arayuz.ilk_kurulumu_yap()
 	
 	print("=== YERALTI İMPARATORLUĞU BAŞLADI ===")
@@ -26,8 +26,8 @@ func _process(delta: float) -> void:
 		zamanlayici = 0.0
 		ekonomi.saatlik_dongu_tetikle()
 		
-		# Test geliştirmesi (Pilavcıyı otomatik büyütür)
-		ekonomi.mekan_gelistir(1)
+		# HATA DÜZELTİLDİ: Otomatik test geliştirmesi (mekan_gelistir) buradan tamamen kaldırıldı!
+		# Artık dükkanlar kendi kendine paranı harcamayacak.
 		
 		# Sayılar değiştikçe ekranı güncelle
 		if ana_arayuz and ana_arayuz.has_method("arayuzu_guncelle"):

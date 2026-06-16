@@ -1,11 +1,12 @@
 [gd_scene format=3 uid="uid://cptr1pxua3nbc"]
 
-[ext_resource type="Script" uid="uid://1wn350sfxtux" path="res://game/scenes/DukkanKarti.gd" id="1_ag3y2"]
+[ext_resource type="Script" uid="uid://1wn350sfxtux" path="res://game/src/ui/DukkanKarti.gd" id="1_8p3wn"]
 
 [node name="DukkanKarti" type="PanelContainer" unique_id=1834004138]
 offset_right = 680.0
 offset_bottom = 140.0
-script = ExtResource("1_ag3y2")
+mouse_filter = 1
+script = ExtResource("1_8p3wn")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=971481320]
 layout_mode = 2

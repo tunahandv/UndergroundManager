@@ -11,7 +11,7 @@ extends Control
 
 
 # Tasarladığımız dükkan kartı şablonunu koda tanıtıyoruz (Preload)
-const DUKKAN_KARTI_SABLOBU = preload("res://game/scenes/DukkanKarti.tscn")
+const DUKKAN_KARTI_SABLOBU = preload("res://game/src/ui/DukkanKarti.tscn")
 
 var ekonomi # TestMerkezi'nden gelecek olan ekonomi motoru
 var kart_listesi: Array = [] # Ekrandaki kartları güncel tutmak için liste
@@ -22,31 +22,25 @@ func _ready() -> void:
 
 # Bu fonksiyon TestMerkezi tarafından ekonomi motoru bağlandığında tetiklenecek
 func ilk_kurulumu_yap() -> void:
-	# GÜVENLİK KONTROLÜ: Eğer kutu koda yüklenmediyse veya ekonomi yoksa durdur, hata verme
 	if not dukkan_listesi_kutusu or not ekonomi: 
-		print("HATA: DukkanListesi kutusu sahnede bulunamadi veya ekonomi motoru baglanmadi!")
+		print("HATA: Liste kutusu veya ekonomi baglanmadi!")
 		return
 	
-	# Önce listede eski dükkanlar kalmışsa temizleyelim
 	for cocuk in dukkan_listesi_kutusu.get_children():
 		cocuk.queue_free()
 	kart_listesi.clear()
 	
-	# Ekonomi motorundaki 7 mekanı tek tek dönüyoruz
 	for mekan in ekonomi.tum_mekanlar:
-		# Şablondan yeni bir dükkan kartı kopyalıyoruz
 		var yeni_kart = DUKKAN_KARTI_SABLOBU.instantiate()
-		
-		# Kartı ekrandaki dikey listenin (VBoxContainer) içine yerleştiriyoruz
 		dukkan_listesi_kutusu.add_child(yeni_kart)
 		
-		# Kartın içindeki yazıları ve butonları bu dükkanın verilerine göre dolduruyoruz
-		yeni_kart.karti_hazirla(mekan, self)
-		
-		# İleride hızlı güncellemek için listemize kaydediyoruz
-		kart_listesi.append(yeni_kart)
+		# GÜVENLİK HATTI: Nesnenin koda sahip olup olmadığını zorla kontrol ediyoruz
+		if yeni_kart.has_method("karti_hazirla"):
+			yeni_kart.karti_hazirla(mekan, self)
+			kart_listesi.append(yeni_kart)
+		else:
+			print("KRİTİK HATA: Olusturulan sahne DukkanKarti.gd koduna sahip degil!")
 	
-	# İlk verileri ekrana basalım
 	arayuzu_guncelle()
 
 # Hem üst barı hem de dükkan kartlarını tazeleyen ana fonksiyon

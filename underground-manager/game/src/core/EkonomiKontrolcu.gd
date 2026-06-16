@@ -11,19 +11,15 @@ var tum_mekanlar: Array[Mekan] = []
 func _init():
 	_dunyayi_olustur()
 
-# Oyun ilk açıldığında haritadaki 7 mekanı başlangıç değerleriyle doğurur
 func _dunyayi_olustur():
-	# Parametreler: id, isim, kategori, temel_gelir, gelistirme_maliyeti, (opsiyonel) mal_orani
 	tum_mekanlar.append(Mekan.new(1, "Sokak Pilavcısı", "Sokak Lezzeti", 10.0, 100.0))
 	tum_mekanlar.append(Mekan.new(2, "Ceylan Street Food", "Sokak Lezzeti", 35.0, 450.0))
 	tum_mekanlar.append(Mekan.new(3, "Köşe Tantunicisi", "Sokak Lezzeti", 60.0, 800.0))
-	tum_mekanlar.append(Mekan.new(4, "Merkez Depo", "Lojistik", 0.0, 1200.0, 50)) # Saatte 50 mal üretir
-	tum_mekanlar.append(Mekan.new(5, "Oto Sanayi / Parçalama", "Lojistik", 120.0, 3000.0, 20)) # Para + 20 mal
+	tum_mekanlar.append(Mekan.new(4, "Merkez Depo", "Lojistik", 0.0, 1200.0, 50)) 
+	tum_mekanlar.append(Mekan.new(5, "Oto Sanayi / Parçalama", "Lojistik", 120.0, 3000.0, 20)) 
 	tum_mekanlar.append(Mekan.new(6, "Lüks Gece Kulübü", "Eğlence", 250.0, 6500.0))
 	tum_mekanlar.append(Mekan.new(7, "Yeraltı Kumarhanesi", "Suç", 500.0, 15000.0))
 
-# BURASI ÇOK KRİTİK: Oyundaki zaman döngüsü (Örn: Her 5 saniyede bir tetiklenecek)
-# Bu fonksiyon her tetiklendiğinde oyunda 1 saat geçmiş gibi tüm dükkanlardan gelir toplar
 func saatlik_dongu_tetikle():
 	var toplam_gelen_para: float = 0.0
 	var toplam_gelen_mal: int = 0
@@ -38,19 +34,25 @@ func saatlik_dongu_tetikle():
 	
 	print("--- SAATLİK RAPOR ---")
 	print("Kazanılan Para: +", toplam_gelen_para, "$ | Güncel Kasa: ", oyuncu_parasi, "$")
-	print("Üretilen Mal: +", toplam_gelen_mal, " Adet | Güncel Stok: ", oyuncu_mallari)
 
-# Oyuncunun bir mekanı geliştirmek istediğinde çağıracağı fonksiyon
-func mekan_gelistir(mekan_id: int) -> bool:
-	for mekan in tum_mekanlar:
-		if mekan.mekan_id == mekan_id:
-			var maliyet = mekan.gelistirme_maliyeti * (mekan.seviye * 2.0)
-			if oyuncu_parasi >= maliyet:
-				var harcanan = mekan.seviye_atlat(oyuncu_parasi)
-				if harcanan > 0:
-					oyuncu_parasi -= harcanan
-					print(mekan.isim, " başarıyla Seviye ", mekan.seviye, " yapıldı!")
-					return true
-			else:
-				print("Yetersiz bakiye! Gereken: ", maliyet, "$")
+# TANE TANE ÇÖZÜM: Geliştirme işini tamamen bu merkezi motora bırakıyoruz
+func mekan_gelistir_merkezi(mekan: Mekan) -> bool:
+	var maliyet = mekan.guncel_gelistirme_maliyeti_hesapla()
+	if oyuncu_parasi >= maliyet and mekan.isgal_edildi_mi:
+		var harcanan = mekan.seviye_atlat(oyuncu_parasi)
+		if harcanan > 0.0:
+			oyuncu_parasi -= harcanan
+			print("💥 MOTOR BAŞARILI: ", mekan.isim, " yeni seviye: ", mekan.seviye, " | Kalan Para: ", oyuncu_parasi)
+			return true
+	return false
+
+# TANE TANE ÇÖZÜM: Olmayan işgal etme motorunu buraya kuruyoruz
+func mekan_isgal_et_merkezi(mekan: Mekan) -> bool:
+	var isgal_maliyeti = mekan.gelistirme_maliyeti * 3.5
+	if oyuncu_parasi >= isgal_maliyeti and not mekan.isgal_edildi_mi:
+		oyuncu_parasi -= isgal_maliyeti
+		mekan.isgal_edildi_mi = true
+		mekan.sahip_cete = "Oyuncu_Çetesi"
+		print("💥 MOTOR BAŞARILI: ", mekan.isim, " İŞGAL EDİLDİ! | Kalan Para: ", oyuncu_parasi)
+		return true
 	return false
