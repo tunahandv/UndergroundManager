@@ -1,0 +1,64 @@
+[gd_scene format=3 uid="uid://c281snnoxvqt3"]
+
+[sub_resource type="GDScript" id="GDScript_x8ciq"]
+script/source = "extends Area3D
+
+var hizi: float = 35.0 # Kurşunun havada uçma hızı
+var hasar_gucu: float = 0.0
+var hedef_takim: String = \"\"
+var yon: Vector3 = Vector3.ZERO
+
+func _ready() -> void:
+	# Kurşun havada boşa uçup gitmesin, hedefi ıskalarsa 2 saniye sonra imha olsun
+	get_tree().create_timer(2.0).timeout.connect(queue_free)
+	
+	# Kurşun bir nesneye çarptığında tetiklenecek sinyal bağlantısı
+	if not body_entered.is_connected(_on_body_entered):
+		body_entered.connect(_on_body_entered)
+
+func _physics_process(delta: float) -> void:
+	# Kurşunu hedef doğrultusunda dümdüz uçuruyoruz
+	global_position += yon * hizi * delta
+
+# 🔥 ASKERDEKİ LOOK_AT VE TERS GİTME HATALARINI BİTİREN KUSURSUZ YÖNLENDİRME MOTORU
+func mermiyi_hazirla(baslangic: Vector3, hedef: Vector3) -> void:
+	global_position = baslangic
+	
+	# Hedef doğrultusundaki net yön vektörünü hesapla
+	yon = (hedef - baslangic).normalized()
+	
+	# Godot 3D'deki -Z ve +Z eksen çakışmasını/ters gitmesini engellemek için,
+	# Basis.looking_at fonksiyonuna yönün tam tersini (-yon) basarak rotasyonu 180 derece düzeltiyoruz.
+	if yon != Vector3.ZERO:
+		var target_basis = Basis.looking_at(-yon, Vector3.UP)
+		global_transform.basis = target_basis
+
+func _on_body_entered(body: Node3D) -> void:
+	# Çarptığımız şey sahne ağacında geçerli bir asker mi kontrol et
+	if is_instance_valid(body) and body.is_in_group(\"Askerler\") and body.has_method(\"hasar_al\"):
+		# 🎯 Sadece hedeflenen düşman takımın askerine çarpınca hasar ver ve kurşunu yok et
+		if body.takim == hedef_takim and body.can > 0:
+			body.hasar_al(hasar_gucu)
+			queue_free() # Mermi hedefe ulaşınca dünyadan silinir
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vaw13"]
+shading_mode = 0
+albedo_color = Color(1, 0.27058825, 0, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_n81no"]
+material = SubResource("StandardMaterial3D_vaw13")
+radius = 0.15
+height = 0.15
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_3jelc"]
+radius = 0.15
+
+[node name="Kurson" type="Area3D" unique_id=1389683118]
+script = SubResource("GDScript_x8ciq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=1167227043]
+mesh = SubResource("SphereMesh_n81no")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=27130492]
+shape = SubResource("SphereShape3D_3jelc")

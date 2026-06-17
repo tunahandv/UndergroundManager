@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://cq8wl8eerxjjm"]
+
+[ext_resource type="Script" uid="uid://df8jebjoos1p4" path="res://MermiIzi.gd" id="1_b15b3"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_bvxd4"]
+shading_mode = 0
+albedo_color = Color(1, 0.27058825, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_u2vuv"]
+material = SubResource("StandardMaterial3D_bvxd4")
+top_radius = 0.01
+bottom_radius = 0.01
+height = 1.0
+
+[node name="MermiIzi" type="MeshInstance3D" unique_id=1916577302]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, -1, 0, 1, -4.371139e-08, 0, 0, 0)
+mesh = SubResource("CylinderMesh_u2vuv")
+script = ExtResource("1_b15b3")

@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://bxlkxe6c7q3a4"]
+
+[ext_resource type="Script" uid="uid://dhg1egi1iepk3" path="res://SavasYoneticisi.gd" id="1_hv0tn"]
+
+[sub_resource type="NavigationMesh" id="NavigationMesh_d2t4r"]
+vertices = PackedVector3Array(-29.5, 0.75, -29.5, -29.5, 0.75, 29.5, 29.5, 0.75, 29.5, 29.5, 0.75, -29.5)
+polygons = [PackedInt32Array(3, 2, 0), PackedInt32Array(0, 2, 1)]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hv0tn"]
+albedo_color = Color(0.3529412, 0.3529412, 0.3529412, 1)
+
+[sub_resource type="Environment" id="Environment_hv0tn"]
+background_mode = 1
+background_color = Color(0.03137255, 0.03137255, 0.047058824, 1)
+ambient_light_source = 2
+ambient_light_color = Color(0.039215688, 0.039215688, 0.08235294, 1)
+ambient_light_energy = 0.2
+tonemap_mode = 2
+ssao_enabled = true
+glow_enabled = true
+glow_intensity = 0.8
+glow_bloom = 0.2
+fog_enabled = true
+fog_light_color = Color(0.007843138, 0.007843138, 0.019607844, 1)
+fog_light_energy = 0.1
+fog_density = 0.02
+
+[node name="SavasArenasi" type="Node3D" unique_id=785892061]
+script = ExtResource("1_hv0tn")
+
+[node name="NavigationRegion3D" type="NavigationRegion3D" parent="." unique_id=346312210]
+navigation_mesh = SubResource("NavigationMesh_d2t4r")
+
+[node name="Zemin" type="CSGBox3D" parent="NavigationRegion3D" unique_id=384907060]
+material_override = SubResource("StandardMaterial3D_hv0tn")
+use_collision = true
+size = Vector3(60, 0.5, 60)
+
+[node name="OyuncuSpawnNoktasi" type="Node3D" parent="." unique_id=1833933549]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12, 0.5, 0)
+
+[node name="DusmanSpawnNoktasi" type="Node3D" parent="." unique_id=419032663]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 12, 0.5, 0)
+
+[node name="Camera3D" type="Camera3D" parent="." unique_id=2132571835]
+transform = Transform3D(1, 0, 0, 0, 0.6156615, 0.7880107, 0, -0.7880107, 0.6156615, 0, 45, 35)
+current = true
+far = 10000.0
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=1038411934]
+transform = Transform3D(0.70710677, -0.49999997, 0.49999997, 0, 0.70710677, 0.70710677, -0.70710677, -0.49999997, 0.49999997, 0, 0, 0)
+light_volumetric_fog_energy = 0.0
+shadow_enabled = true
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1295800144]
+environment = SubResource("Environment_hv0tn")

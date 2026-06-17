@@ -1,0 +1,56 @@
+[gd_scene format=3 uid="uid://x7yg7k4jpwri"]
+
+[ext_resource type="Script" uid="uid://b5rtd7wknxg5" path="res://Asker.gd" id="1_2mxtl"]
+[ext_resource type="AudioStream" uid="uid://c6xyqtmfw3v7a" path="res://dragon-studio-gunshot-504030.mp3" id="2_pj1xo"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_pj1xo"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_gt38b"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_2mxtl"]
+bg_color = Color(0.6, 0, 0, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0, 0, 0, 1)
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_pj1xo"]
+viewport_path = NodePath("SubViewport")
+
+[node name="Asker" type="CharacterBody3D" unique_id=1414080868]
+collision_layer = 2
+script = ExtResource("1_2mxtl")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=833967927]
+mesh = SubResource("CapsuleMesh_pj1xo")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="." unique_id=1270272913]
+shape = SubResource("CapsuleShape3D_gt38b")
+
+[node name="NavigationAgent3D" type="NavigationAgent3D" parent="." unique_id=1930983781]
+
+[node name="HedefGuncellemeSaati" type="Timer" parent="." unique_id=483402811]
+wait_time = 0.2
+autostart = true
+
+[node name="SubViewport" type="SubViewport" parent="." unique_id=367907719]
+transparent_bg = true
+size = Vector2i(200, 30)
+
+[node name="ProgressBar" type="ProgressBar" parent="SubViewport" unique_id=416414806]
+offset_right = 200.0
+offset_bottom = 30.0
+theme_override_styles/fill = SubResource("StyleBoxFlat_2mxtl")
+value = 15.0
+show_percentage = false
+
+[node name="CanBariSprite" type="Sprite3D" parent="." unique_id=905207586]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 2.5, 0)
+billboard = 1
+texture = SubResource("ViewportTexture_pj1xo")
+
+[node name="AtisSesi" type="AudioStreamPlayer3D" parent="." unique_id=1559554099]
+stream = ExtResource("2_pj1xo")
+volume_db = 10.0
+max_distance = 100.0

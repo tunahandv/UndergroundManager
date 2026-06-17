@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://d0756bn75a8jn"]
+
+[ext_resource type="Script" uid="uid://buma2dnwvd365" path="res://KanEfekti.gd" id="1_umkxe"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_wk6gq"]
+emission_shape_offset = Vector3(0, 1, 0)
+angle_min = 4.000011
+angle_max = 7.000011
+initial_velocity_min = 4.0
+initial_velocity_max = 7.0
+gravity = Vector3(0, -20, 0)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_tkvhf"]
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.59607846, 0, 0.007843138, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_bfji4"]
+material = SubResource("StandardMaterial3D_tkvhf")
+radius = 0.1
+height = 0.1
+
+[node name="KanEfekti" type="GPUParticles3D" unique_id=748155209]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+emitting = false
+amount = 15
+lifetime = 0.4
+one_shot = true
+explosiveness = 1.0
+process_material = SubResource("ParticleProcessMaterial_wk6gq")
+draw_pass_1 = SubResource("SphereMesh_bfji4")
+script = ExtResource("1_umkxe")
